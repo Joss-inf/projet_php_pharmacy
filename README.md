@@ -1,6 +1,6 @@
 # 📦 Site de Pharmacie en Ligne
 
-Bienvenue sur **Pharmacy**, une plateforme dédiée à la gestion des stocks de pharmacie, à la consultation des médicaments disponibles, et à la localisation des pharmacies à proximité.
+Bienvenue sur **Pharmacy**, une plateforme dédiée à la gestion des stocks de pharmacie, à la consultation des médicaments disponibles, et à la localisation des pharmacies à proximiter.
 
 ## 🚀 Fonctionnalités
 
@@ -19,7 +19,7 @@ Bienvenue sur **Pharmacy**, une plateforme dédiée à la gestion des stocks de 
 - Carte interactive pour trouver les pharmacies à proximité.
 
 ### 📜 Gestion des Ordonnances
-- Indication des médicaments nécessitant une prescription.
+- Indications des médicaments nécessitant une prescription.
 
 ## 🔧 Technologies Utilisées
 - **Frontend** : HTML / Tailwind css / JavaScript
