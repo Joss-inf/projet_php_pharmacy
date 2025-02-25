@@ -36,6 +36,30 @@ require "header/header.php";
     </div>
 </body>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (event) {
+        let email = document.querySelector("input[name='Mail']").value;
+        let phone = document.querySelector("input[name='phone']").value;
+
+        let emailTest = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let phoneTest = /^[0-9+()\s-]{8,15}$/;
+
+        if (!emailTest.test(email)) {
+            alert("Veuillez entrer un email valide");
+            event.preventDefault();
+        }
+
+        if (!phoneTest.test(phone)) {
+            alert("Veuillez entrer un numéro de téléphone valide");
+            event.preventDefault();
+        }
+    });
+});
+
+</script>
 
 <?php 
 
