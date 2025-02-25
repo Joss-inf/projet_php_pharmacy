@@ -90,7 +90,7 @@ $coords = getCoordinates($pharmacy['address']);
         
         <!-- Back Button -->
         <div class="mt-6 text-center">
-            <a href="search.php" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">⬅ Back to Search</a>
+            <a href="index.php" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">⬅ Back to Search</a>
         </div>
     </div>
 <?php require "footer/footer.php";?>
