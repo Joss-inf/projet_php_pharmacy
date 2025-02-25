@@ -1,19 +1,18 @@
 <?php 
 
-require "header/header.php";
-require "database.php"; // Connexion à la base de données
+require "header/header.php";  // Include the header
+require "database.php";       // Include the database connection
 
-// Obtenir la connexion PDO
-$conn = Database::getConnection();
+$conn = Database::getConnection(); // Establish database connection
 
-// Fonction pour récupérer la latitude et la longitude avec OpenStreetMap (Nominatim)
+// Function to get latitude and longitude from an address using OpenStreetMap API
 function getCoordinates($address) {
     $url = "https://nominatim.openstreetmap.org/search?q=" . urlencode($address) . "&format=json&limit=1";
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0"); // Nominatim requiert un User-Agent
+    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0"); // Identify the request to the API
     $response = curl_exec($ch);
     curl_close($ch);
 
@@ -25,20 +24,21 @@ function getCoordinates($address) {
             "lon" => floatval($data[0]['lon'])
         ];
     } else {
-        return ["lat" => null, "lon" => null];
+        return ["lat" => null, "lon" => null]; // Return null values if no coordinates are found
     }
 }
 
-// Récupérer les pharmacies depuis la base de données
+// Fetch pharmacy names and addresses from the database
 $sql = "SELECT name, address FROM Pharmacy";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $pharmacies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $pharmacy_data = [];
+
 if (!empty($pharmacies)) {
     foreach ($pharmacies as $pharma) {
-        $coords = getCoordinates($pharma['address']);
+        $coords = getCoordinates($pharma['address']); // Get latitude and longitude
         if ($coords['lat'] !== null && $coords['lon'] !== null) {
             $pharmacy_data[] = [
                 "name" => $pharma['name'],
@@ -49,36 +49,38 @@ if (!empty($pharmacies)) {
         }
     }
 } else {
-    echo "<p style='color:red; text-align:center;'>⚠️ Aucune pharmacie trouvée dans la base de données !</p>";
+    echo "<p style='color:red; text-align:center;'>⚠️ No pharmacies found in the database!</p>";
 }
 
-// Convertir en JSON pour JavaScript
-$pharmacy_json = json_encode($pharmacy_data);
+$pharmacy_json = json_encode($pharmacy_data); // Convert pharmacy data to JSON format
 
 ?>
 
 <body class="bg-gray-100 text-gray-900">
 <div class="container mx-auto p-6">
-    <h2 class="text-2xl font-bold text-center mb-4">Carte des Pharmacies de Paris</h2>
+    <h2 class="text-2xl font-bold text-center mb-4">Map of Pharmacies in Paris</h2>
     <div id="map" class="w-full h-[500px] rounded-lg shadow-lg"></div>
 </div>
 
 <script>
+    // Initialize the map centered around Paris
     var map = L.map('map').setView([48.841, 2.298], 14);
 
+    // Load OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Charger les pharmacies dynamiquement depuis PHP
+    // Load pharmacy data from PHP into JavaScript
     var pharmacies = <?php echo $pharmacy_json; ?>;
     
-    console.log("Données des pharmacies:", pharmacies); // Vérification des données dans la console
+    console.log("Pharmacy data:", pharmacies); // Log data to console for debugging
 
     if (pharmacies.length === 0) {
-        alert("⚠️ Aucune pharmacie trouvée. Vérifie la base de données.");
+        alert("⚠️ No pharmacies found. Check the database.");
     }
 
+    // Add markers for each pharmacy on the map
     pharmacies.forEach(pharma => {
         L.marker([pharma.lat, pharma.lon])
             .addTo(map)
@@ -88,6 +90,6 @@ $pharmacy_json = json_encode($pharmacy_data);
 
 <?php 
 
-require "footer/footer.php";
+require "footer/footer.php"; // Include the footer
 
 ?>
