@@ -35,11 +35,11 @@
           <i class="fas fa-magnifying-glass"></i>
         </a>
         <!-- Profile icon -->
-        <a href="profil.php" class="hover:text-gray-300">
+        <a href="login.php" class="hover:text-gray-300">
           <i class="fas fa-user"></i>
         </a>
         <!-- Shopping cart icon -->
-        <a href="panier.php" class="hover:text-gray-300">
+        <a href="card.php" class="hover:text-gray-300">
           <i class="fas fa-shopping-cart"></i>
         </a>
       </div>
