@@ -31,8 +31,8 @@
       <!-- Icons container for search, profile, and shopping cart -->
       <div class="flex space-x-4">
         <!-- Search icon -->
-        <a href="search.php" class="hover:text-gray-300">
-          <i class="fas fa-magnifying-glass"></i>
+        <a href="profile.php" class="hover:text-gray-300">
+          <i class="fas fa-plus"></i>
         </a>
         <!-- Profile icon -->
         <a href="login.php" class="hover:text-gray-300">
