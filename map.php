@@ -1,6 +1,10 @@
 <?php 
+
 require "header/header.php";
 require "database.php"; // Connexion à la base de données
+
+// Obtenir la connexion PDO
+$conn = Database::getConnection();
 
 // Fonction pour récupérer la latitude et la longitude avec OpenStreetMap (Nominatim)
 function getCoordinates($address) {
@@ -27,18 +31,20 @@ function getCoordinates($address) {
 
 // Récupérer les pharmacies depuis la base de données
 $sql = "SELECT name, address FROM Pharmacy";
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$pharmacies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $pharmacy_data = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $coords = getCoordinates($row['address']);
+if (!empty($pharmacies)) {
+    foreach ($pharmacies as $pharma) {
+        $coords = getCoordinates($pharma['address']);
         if ($coords['lat'] !== null && $coords['lon'] !== null) {
             $pharmacy_data[] = [
-                "name" => $row['name'],
+                "name" => $pharma['name'],
                 "lat" => $coords['lat'],
                 "lon" => $coords['lon'],
-                "address" => $row['address']
+                "address" => $pharma['address']
             ];
         }
     }
