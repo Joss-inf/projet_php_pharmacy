@@ -27,7 +27,7 @@ Bienvenue sur **Pharmacy**, une plateforme dédiée à la gestion des stocks de 
 - **Base de données** : MySQL / phpMyAdmin
 - **API** : OpenStreetmap / Leaflet / FormSpree
 
-## 👨‍💻 Inhalation 
+## 👨‍💻 Instalation 
 
 - **GitClone** : git clone git@github.com:Joss-inf/projet_php_pharmacy.git
 - **PHP** : Avoir PHP 8.4
