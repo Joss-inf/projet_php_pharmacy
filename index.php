@@ -9,6 +9,10 @@ require "database.php";
 // Establish a connection to the database using the singleton pattern
 $pdo = Database::getConnection(); 
 
+// Fetch all pharmacies for the dropdown list
+$pharmacyQuery = $pdo->query("SELECT * FROM Pharmacy"); 
+$pharmacies = $pharmacyQuery->fetchAll(PDO::FETCH_ASSOC);
+
 // Fetch all product types from the database for the dropdown menu
 $typeQuery = $pdo->query("SELECT * FROM ProductType"); 
 $productTypes = $typeQuery->fetchAll(PDO::FETCH_ASSOC);
@@ -17,12 +21,14 @@ $productTypes = $typeQuery->fetchAll(PDO::FETCH_ASSOC);
 $search = "";
 $id_type = "";
 $need_prescription = "";
+$pharmacy_id = "";
 
 // Construction de la requête SQL pour récupérer tous les produits
-$sql = "SELECT Product.*, ProductType.type, COALESCE(PharmacyProduct.price, 'Non disponible') AS price 
+$sql = "SELECT Product.*, ProductType.type, COALESCE(PharmacyProduct.price, 'Non disponible') AS price, Pharmacy.name AS pharmacy_name, Pharmacy.id AS pharmacy_id 
         FROM Product
         INNER JOIN ProductType ON Product.id_type = ProductType.id
         LEFT JOIN PharmacyProduct ON Product.id = PharmacyProduct.product_id
+        LEFT JOIN Pharmacy ON PharmacyProduct.pharmacy_id = Pharmacy.id
         WHERE 1=1"; // Toujours vrai pour récupérer tous les produits
 
 $params = [];
@@ -32,10 +38,16 @@ if (!empty($_GET)) {
     $search = htmlspecialchars($_GET['search'] ?? '');
     $id_type = $_GET['id_type'] ?? '';
     $need_prescription = $_GET['need_prescription'] ?? '';
+    $pharmacy_id = $_GET['pharmacy_id'] ?? '';
 
     if (!empty($search)) {
         $sql .= " AND Product.name LIKE ?";
         $params[] = "%$search%";
+    }
+
+    if (!empty($pharmacy_id)) {
+        $sql .= " AND Pharmacy.id = ?";
+        $params[] = $pharmacy_id;
     }
 
     if (!empty($id_type)) {
@@ -61,11 +73,21 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
         <h1 class="text-3xl font-bold mb-6 text-center">Recherche de Médicaments</h1>
         
         <form method="GET" action="index.php" class="mb-6 bg-white p-6 rounded-lg shadow-lg">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 
-                <!-- Champ de recherche -->
+                <!-- Champ de recherche par nom de médicament -->
                 <input type="text" name="search" value="<?= $search ?>" placeholder="Nom du médicament..."
                     class="w-full p-2 border rounded-md focus:outline-none focus:ring-0 focus:border-green-600">
+
+                <!-- Liste déroulante pour filtrer par pharmacie -->
+                <select name="pharmacy_id" class="w-full p-2 border rounded-md focus:border-green-600 focus:ring-0 focus:outline-none">
+                    <option value="">Toutes les pharmacies</option>
+                    <?php foreach ($pharmacies as $pharmacy) : ?>
+                        <option value="<?= $pharmacy['id'] ?>" <?= ($pharmacy_id == $pharmacy['id']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($pharmacy['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
 
                 <!-- Filtre par type de produit -->
                 <select name="id_type" class="w-full p-2 border rounded-md focus:border-green-600 focus:ring-0 focus:outline-none">
@@ -110,6 +132,16 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($products as $product) : ?>
                         <div class="bg-white p-4 rounded-lg shadow-lg">
                             <h3 class="text-lg font-bold"><?= htmlspecialchars($product['name']) ?></h3>
+                            <p class="text-gray-500">
+                                <strong>Pharmacie:</strong> 
+                                <?php if (!empty($product['pharmacy_id'])): ?>
+                                    <a href="pharmacy.php?id=<?= htmlspecialchars($product['pharmacy_id']) ?>" class="text-blue-600 hover:underline">
+                                        <?= htmlspecialchars($product['pharmacy_name']) ?>
+                                    </a>
+                                <?php else: ?>
+                                    <span>Non disponible</span>
+                                <?php endif; ?>
+                            </p>
                             <p class="text-gray-500"><strong>Type:</strong> <?= htmlspecialchars($product['type']) ?></p>
                             <p class="text-gray-700"><strong>Description:</strong> <?= nl2br(htmlspecialchars($product['description'])) ?></p>
                             <p class="mt-2 <?= $product['need_prescription'] ? 'text-red-600' : 'text-green-600' ?>">
