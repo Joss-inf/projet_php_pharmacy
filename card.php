@@ -3,6 +3,7 @@
 require "header/header.php"
 
 ?>
+
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6">Votre Panier</h1>
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -43,9 +44,10 @@ require "header/header.php"
     </div>
     <!-- Checkout button -->
     <div class="flex justify-end mt-6">
-      <a href="checkout.php" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Passer à la caisse</a>
+      <a href="checkout.php" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">Passer à la caisse</a>
     </div>
   </div>
+
 <?php 
 
 require "footer/footer.php"

@@ -12,11 +12,11 @@ require "header/header.php";
         
         <form action="https://formspree.io/f/xldgyall" method="POST">
             <div class="mt-4">
-                <input type="text" name="Mail" required class="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm" placeholder="Mail">
+                <input type="text" name="Mail" type="email" required class="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm" placeholder="Mail">
             </div>
 
             <div class="mt-4">
-                <input type="text" name="phone" required class="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm" placeholder="Numéro De Téléphone">
+                <input type="text" name="phone" type="tel" required class="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm" placeholder="Numéro De Téléphone">
             </div>
 
             <div class="mt-10">

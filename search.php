@@ -33,12 +33,12 @@ $pharmacies = $query->fetchAll(PDO::FETCH_ASSOC);
         <!-- Search form -->
         <form method="GET" action="search.php" class="mb-6 bg-white p-6 rounded-lg shadow-lg">
             <input type="text" name="search" value="<?= $search ?>" placeholder="Recherche par nom de pharmacie, adresse ou département..."
-                class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                class="w-full p-2 border rounded-md focus:outline-none focus:ring-0 focus:border-green-600">
             
             <!-- Submit button -->
             <button type="submit"
-                class="w-full bg-blue-500 text-white p-2 mt-4 rounded-md hover:bg-blue-600 transition">
-                🔍 Search
+                class="w-full bg-green-600 text-white p-2 mt-4 rounded-md hover:bg-blue-600 transition">
+                🔍 Rechercher
             </button>
         </form>
 
@@ -49,7 +49,7 @@ $pharmacies = $query->fetchAll(PDO::FETCH_ASSOC);
                 <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <?php foreach ($pharmacies as $pharmacy): ?>
                         <li class="border p-4 rounded-md bg-gray-50 shadow-md">
-                            <strong class="text-lg"><a href='pharmacy.php?id=<?= htmlspecialchars($pharmacy["id"]) ?>' class='text-blue-500 hover:underline'>🏥 <?= htmlspecialchars($pharmacy['name']) ?></a></strong>
+                            <strong class="text-lg"><a href='pharmacy.php?id=<?= htmlspecialchars($pharmacy["id"]) ?>' class='text-green-600 hover:underline'>🏥 <?= htmlspecialchars($pharmacy['name']) ?></a></strong>
                             <p class="text-gray-600">📍 <?= htmlspecialchars($pharmacy['address']) ?></p>
                             <p class="text-gray-500">🗺️ Department: <span class="font-semibold"><?= htmlspecialchars($pharmacy['department']) ?></span></p>
                             <p class="text-gray-500">📞 Contact: <span class="font-semibold"><?= htmlspecialchars($pharmacy['phone']) ?></span></p>
