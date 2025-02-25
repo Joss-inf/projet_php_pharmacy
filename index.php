@@ -65,10 +65,10 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
                 
                 <!-- Champ de recherche -->
                 <input type="text" name="search" value="<?= $search ?>" placeholder="Nom du médicament..."
-                    class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                    class="w-full p-2 border rounded-md focus:outline-none focus:ring-0 focus:border-green-600">
 
                 <!-- Filtre par type de produit -->
-                <select name="id_type" class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                <select name="id_type" class="w-full p-2 border rounded-md focus:border-green-600 focus:ring-0 focus:outline-none">
                     <option value="">Tous les types</option>
                     <?php foreach ($productTypes as $type) : ?>
                         <option value="<?= $type['id'] ?>" <?= ($id_type == $type['id']) ? 'selected' : '' ?>>
@@ -80,15 +80,15 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Filtre par nécessité d'ordonnance -->
                 <div class="flex space-x-4 items-center">
                     <label class="flex items-center">
-                        <input type="radio" name="need_prescription" value="" <?= ($need_prescription === "") ? 'checked' : '' ?> class="mr-2">
+                        <input type="radio" name="need_prescription" value="" <?= ($need_prescription === "") ? 'checked' : '' ?> class="mr-2 accent-green-600 focus:ring-0 focus:outline-none">
                         Tous
                     </label>
                     <label class="flex items-center">
-                        <input type="radio" name="need_prescription" value="1" <?= ($need_prescription === "1") ? 'checked' : '' ?> class="mr-2">
+                        <input type="radio" name="need_prescription" value="1" <?= ($need_prescription === "1") ? 'checked' : '' ?> class="mr-2 accent-green-600 focus:ring-0 focus:outline-none">
                         Nécessite une ordonnance
                     </label>
                     <label class="flex items-center">
-                        <input type="radio" name="need_prescription" value="0" <?= ($need_prescription === "0") ? 'checked' : '' ?> class="mr-2">
+                        <input type="radio" name="need_prescription" value="0" <?= ($need_prescription === "0") ? 'checked' : '' ?> class="mr-2 accent-green-600 focus:ring-0 focus:outline-none">
                         En vente libre
                     </label>
                 </div>
@@ -96,7 +96,7 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
 
             <!-- Bouton de recherche -->
             <button type="submit"
-                class="w-full bg-blue-500 text-white p-2 mt-4 rounded-md hover:bg-blue-600 transition">
+                class="w-full bg-green-600 text-white p-2 mt-4 rounded-md hover:bg-green-700 transition">
                 🔍 Rechercher
             </button>
         </form>
@@ -115,7 +115,7 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
                             <p class="mt-2 <?= $product['need_prescription'] ? 'text-red-600' : 'text-green-600' ?>">
                                 <?= $product['need_prescription'] ? '❌ Nécessite une ordonnance' : '✅ En vente libre' ?>
                             </p>
-                            <p class="text-blue-600 font-semibold mt-2">
+                            <p class="text-green-600 font-semibold mt-2">
                                 💰 Prix: <?= htmlspecialchars($product['price']) ?> €
                             </p>
                         </div>

@@ -28,7 +28,7 @@
             <!-- Flex container to hold the email input and submit button side by side -->
             <input type="email" id="newsletter" name="newsletter" placeholder="Votre email" class="px-2 py-1 rounded-l bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
             <!-- Email input field with padding, left-rounded border, dark gray background, and white text -->
-            <button type="submit" class="px-4 py-1 rounded-r bg-blue-500 hover:bg-blue-600 focus:outline-none">S'abonner</button>
+            <button type="submit" class="px-4 py-1 rounded-r bg-green-600 hover:bg-green-700 focus:outline-none">S'abonner</button>
             <!-- Submit button with padding, right-rounded border, blue background that darkens on hover -->
           </div>
         </form>

@@ -1,9 +1,9 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'Pharmacy';
+    private $db_name = 'pharmacy';
     private $username = 'root';
-    private $password = 'root';
+    private $password = '1234';
     private static $instance = null;
     private $conn;
 
