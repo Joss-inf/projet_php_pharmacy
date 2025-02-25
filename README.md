@@ -26,3 +26,9 @@ Bienvenue sur **Pharmacy**, une plateforme dédiée à la gestion des stocks de 
 - **Backend** : PHP / Ajax
 - **Base de données** : MySQL / phpMyAdmin
 - **API** : OpenStreetmap / Leaflet / FormSpree
+
+## 👾 Équipe
+- **Amandine**
+- **Romain**
+- **Josselin**
+- **Heidi**
