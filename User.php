@@ -20,10 +20,10 @@ class User {
             $hached_password = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
 
             // Insérer le nouvel utilisateur
-            $stmt = $this->db->prepare("INSERT INTO Users (password, email) VALUES (:password, :email)");
+            $stmt = $this->db->prepare("INSERT INTO Users (password, email, role) VALUES (:password, :email, :role)");
 
             // Exécution de la requête avec les données associées
-            if ($stmt->execute(['password' => $hached_password, 'email' => $email])) {
+            if ($stmt->execute(['password' => $hached_password, 'email' => $email, 'role' => 0])) {
                 return [200, 'Inscription réussie.'];
             } else {
                 return [400, "Erreur lors de l'inscription."];
