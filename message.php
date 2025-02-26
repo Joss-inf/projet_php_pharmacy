@@ -18,11 +18,11 @@ require "header/header.php"
                 <!-- Messages ici -->
             </div>
 
-            <!-- Formulaire d'envoi -->
-            <div class="p-4 border-t flex items-center">
-                <input type="text" placeholder="Écrivez un message..." class="flex-1 p-2 border rounded-lg outline-none">
-                <button class="ml-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Envoyer</button>
-            </div>
+            <!-- Formulaire d'envoi avec méthode POST -->
+            <form action="" method="POST" class="p-4 border-t flex items-center">
+                <input type="text" name="message" placeholder="Écrivez un message..." class="flex-1 p-2 border rounded-lg outline-none" required>
+                <button type="submit" class="ml-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Envoyer</button>
+            </form>
         </div>
     </div>
 

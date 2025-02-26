@@ -6,7 +6,7 @@ class User {
     }
 
     // Inscription d'un nouvel utilisateur
-    public function register( $email,$password) {
+    public function register($email,$password) {
         // Vérifier si le nom d'utilisateur ou l'email existe déjà
         $stmt = $this->db->prepare("SELECT 1 FROM Users WHERE  email = :email");
         $stmt->execute(['email' => $email]);
