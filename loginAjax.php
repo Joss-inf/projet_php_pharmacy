@@ -10,7 +10,7 @@ $email = $postData['email'] ?? '';
 $u = new User(Database::getConnection());
 $res = $u -> login($email,$password);
 if(!isset($res[3]) && $res[0] == 200){
-    
+
     $_SESSION['user_id'] = $res ['id'] ?? '';
     $_SESSION['email'] = $res ['email']?? '';
     $_SESSION['role'] = $res ['role']?? '';
