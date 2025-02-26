@@ -6,12 +6,12 @@ class User {
     }
 
     // Inscription d'un nouvel utilisateur
-    public function register( $password, $email) {
+    public function register( $email,$password) {
         // Vérifier si le nom d'utilisateur ou l'email existe déjà
         $stmt = $this->db->prepare("SELECT 1 FROM users WHERE  email = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->rowCount() > 0) {
-            return " email déjà pris.";
+            return [400,"email déjà pris."];
         }
 
         // Hacher le mot de passe
@@ -20,21 +20,22 @@ class User {
         // Insérer le nouvel utilisateur
         $stmt = $this->db->prepare("INSERT INTO users (password, email) VALUES (:password, :email)");
         if ($stmt->execute([ 'password' => $hached_password, 'email' => $email])) {
-            return "Inscription réussie.";
+            return [200,'Inscription réussie.'];
         } else {
-            return "Erreur lors de l'inscription.";
+            return [400,"Erreur lors de l'inscription."];
         }
     }
 
     // Connexion de l'utilisateur
-    public function login($password,$email) {
+    public function login($email,$password) {
         // Préparer la requête pour récupérer l'utilisateur par email
         $stmt = $this->db->prepare("SELECT password FROM users WHERE  email = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->rowCount() >1 || $stmt -> rowCount() < 1) {
-            return " email  incorrect";
+            return [400,'mail  incorrect'];
         }
         $p = $stmt->fetch(PDO::FETCH_ASSOC);
+
         // Vérifier si le mot de passe est correct
         if (password_verify($password,$p['password'])) {
             // Démarrer une session et stocker les informations de l'utilisateur
@@ -42,16 +43,10 @@ class User {
             $stmt->execute(['email' => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            session_start();
+            return [200, 'Connexion réussie.',$user];
 
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['pharmacy_id'] = $user['id_pharmacy'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role'];
-
-            return "Connexion réussie.";
         } else {
-            return "Mot de passe incorrect.";
+            return [400, 'Mot de passe incorrect.'];
         }
     }
 
@@ -60,15 +55,12 @@ class User {
         session_start();
         return isset($_SESSION['user_id']);
     }
-
-    //return the role of the user
     public function whatRole() {
-        if (isConnected() == false) {
+        if ($this ->isConnected() == false) {
             return -1;
         }
         return $_SESSION['role'];
     }
-
     // Déconnexion de l'utilisateur
     public function deconnexion() {
         session_start();
