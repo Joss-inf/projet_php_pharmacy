@@ -61,6 +61,14 @@ class User {
         return isset($_SESSION['user_id']);
     }
 
+    //return the role of the user
+    public function whatRole() {
+        if (isConnected() == false) {
+            return -1;
+        }
+        return $_SESSION['role'];
+    }
+
     // Déconnexion de l'utilisateur
     public function deconnexion() {
         session_start();
