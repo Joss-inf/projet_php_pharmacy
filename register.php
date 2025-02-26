@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Page d'Inscription</title>
-    
-</head>
+<?php require "header/header.php"?>
+<script src="register.js" async></script>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="w-full max-w-md">
-        <form action="register.php" method="post" class="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4" onsubmit="return validateForm();">
+        <form id="registerForm" method="POST" class="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 class="text-gray-100 mb-6 text-center text-2xl font-bold">Inscription</h2>
-            <div class="mb-4">
-                <label class="block text-gray-300 text-sm font-bold mb-2" for="username">
-                    Nom d'utilisateur
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" name="username" placeholder="Nom d'utilisateur" required>
-            </div>
+            <div id="response-container"></div>
             <div class="mb-4">
                 <label class="block text-gray-300 text-sm font-bold mb-2" for="email">
                     Adresse e-mail
@@ -34,6 +23,10 @@
                     Mot de passe
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" name="password" placeholder="********" required>
+                    <div id= "containerJaudge" >
+                    <div id="line" ></div>
+                    </div >
+                    <p id="message"></p>
             </div>
             <div class="mb-6">
                 <label class="block text-gray-300 text-sm font-bold mb-2" for="confirm_password">
@@ -54,5 +47,7 @@
             &copy;2025 Votre Société. Tous droits réservés.
         </p>
     </div>
+</div>
+<?php require "footer/footer.php"?>
 </body>
 </html>
