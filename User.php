@@ -8,7 +8,7 @@ class User {
     // Inscription d'un nouvel utilisateur
     public function register( $email,$password) {
         // Vérifier si le nom d'utilisateur ou l'email existe déjà
-        $stmt = $this->db->prepare("SELECT 1 FROM users WHERE  email = :email");
+        $stmt = $this->db->prepare("SELECT 1 FROM Users WHERE  email = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->rowCount() > 0) {
             return [400,"email déjà pris."];
@@ -18,7 +18,7 @@ class User {
         $hached_password = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
 
         // Insérer le nouvel utilisateur
-        $stmt = $this->db->prepare("INSERT INTO users (password, email) VALUES (:password, :email)");
+        $stmt = $this->db->prepare("INSERT INTO Users (password, email) VALUES (:password, :email)");
         if ($stmt->execute([ 'password' => $hached_password, 'email' => $email])) {
             return [200,'Inscription réussie.'];
         } else {
@@ -29,7 +29,7 @@ class User {
     // Connexion de l'utilisateur
     public function login($email,$password) {
         // Préparer la requête pour récupérer l'utilisateur par email
-        $stmt = $this->db->prepare("SELECT password FROM users WHERE  email = :email");
+        $stmt = $this->db->prepare("SELECT password FROM Users WHERE  email = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->rowCount() >1 || $stmt -> rowCount() < 1) {
             return [400,'mail  incorrect'];
