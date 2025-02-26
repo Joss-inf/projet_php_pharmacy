@@ -9,12 +9,13 @@ $password = $postData['password'] ?? '';
 $email = $postData['email'] ?? '';
 $u = new User(Database::getConnection());
 $res = $u -> login($email,$password);
-if(!isset($res[3]) && $res[0] == 200){
+if($res[0] == 200){
 
-    $_SESSION['user_id'] = $res ['id'] ?? '';
-    $_SESSION['email'] = $res ['email']?? '';
-    $_SESSION['role'] = $res ['role']?? '';
-    $_SESSION['id_pharmacy'] = $res['pharmacy_id'] ?? '';
+    $user=$res[2];
+    $_SESSION['user_id'] = $user ['id'] ?? '';
+    $_SESSION['email'] = $user ['email']?? '';
+    $_SESSION['role'] = $user ['role']?? '';
+    $_SESSION['id_pharmacy'] = $user['pharmacy_id'] ?? '';
     $msg = [$res[0],$res[1]];
     echo json_encode(['succes' => 'succes', 'message'=> $msg]);
 }else{
