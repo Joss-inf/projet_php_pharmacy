@@ -2,7 +2,7 @@
 session_start();
 
 require_once "header/header.php";
-require "messageAjax.php";
+
 ?>
 <body>
     <div class="flex-1 flex items-center justify-center">

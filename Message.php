@@ -20,7 +20,7 @@ class Messages {
 
     public function getMessage() {
         try {
-            $stmt = $this->db->query("SELECT * FROM Message ORDER BY timestamp ASC");
+            $stmt = $this->db->query("SELECT Message.message, Message.timestamp, Users.email, Pharmacy.name FROM Message INNER JOIN Pharmacy ON Message.pharmacy_id = Pharmacy.id INNER JOIN Users ON Message.user_id = Users.id WHERE Message.pharmacy_id = 1 ORDER BY Message.timestamp ASC");
             $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return [200, $messages];
         } catch (PDOException $e) {

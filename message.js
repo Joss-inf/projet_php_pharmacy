@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     data.message.forEach(message => {
                         const messageElement = document.createElement('div');
                         messageElement.className = 'message';
-                        messageElement.innerHTML = `<strong>User ${message.user_id}</strong>: ${message.message}`;
+                        messageElement.innerHTML = `<strong>${message.email}</strong>: ${message.message}`;
                         messageBox.appendChild(messageElement);
                     });
 
