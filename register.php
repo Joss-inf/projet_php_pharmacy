@@ -1,8 +1,4 @@
 <?php require "header/header.php"?>
-<<<<<<< HEAD
-<script src="register.js" async></script>
-=======
->>>>>>> dev
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="w-full max-w-md">
