@@ -1,7 +1,5 @@
 <?php 
-
-require "header/header.php"
-
+require "header/header.php";
 ?>
 
 <div class="container mx-auto px-4 py-8">
@@ -18,38 +16,52 @@ require "header/header.php"
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b hover:bg-gray-100">
-            <!-- Product details with image and name -->
-            <td class="py-4 px-6 flex items-center">
-              <img src="">
-              <span>Doliprane</span>
-            </td>
-            <!-- Quantity -->
-            <td class="py-4 px-6 text-center">2</td>
-            <!-- Unit price -->
-            <td class="py-4 px-6 text-right">20 €</td>
-            <!-- Total price for the product -->
-            <td class="py-4 px-6 text-right">40 €</td>
-            <!-- Remove item link (implementation needed) -->
-            <td class="py-4 px-6 text-right">
-              <a href="" class="text-red-500 hover:text-red-700">Supprimer</a>
-            </td>
-          </tr>
+          <?php 
+          $totalPanier = 0; // Initialiser avant la boucle pour éviter l'erreur
+          if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])):
+            foreach ($_SESSION['cart'] as $product):
+              $total = $product['quantity'] * $product['price'];
+              $totalPanier += $total;
+          ?>
+            <tr class="border-b hover:bg-gray-100" data-product-id="<?= $product['product_id'] ?>">
+              <!-- Product details with image and name -->
+              <td class="py-4 px-6 flex items-center">
+                <img src="" alt="Product image">
+                <span><?= htmlspecialchars($product['product_name']) ?></span>
+              </td>
+              <!-- Quantity -->
+              <td class="py-4 px-6 text-center"><?= $product['quantity'] ?></td>
+              <!-- Unit price -->
+              <td class="py-4 px-6 text-right"><?= number_format($product['price'], 2) ?> €</td>
+              <!-- Total price for the product -->
+              <td class="py-4 px-6 text-right"><?= number_format($total, 2) ?> €</td>
+              <!-- Remove item link -->
+              <td class="py-4 px-6 text-right">
+                <a href="#" class="text-red-500 hover:text-red-700 remove-product">Supprimer</a>
+              </td>
+            </tr>
+          <?php 
+            endforeach;
+          else:
+          ?>
+            <tr>
+              <td colspan="5" class="py-4 px-6 text-center">Votre panier est vide.</td>
+            </tr>
+          <?php endif; ?>
         </tbody>
       </table>
       <!-- Cart total -->
       <div class="flex justify-end p-6">
-        <p class="text-xl font-bold">Total du Panier: €</p>
+        <p class="text-xl font-bold">Total du Panier: <?= number_format($totalPanier, 2) ?> €</p>
       </div>
     </div>
     <!-- Checkout button -->
     <div class="flex justify-end mt-6">
       <a href="checkout.php" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">Passer à la caisse</a>
     </div>
-  </div>
+</div>
 
 <?php 
-
-require "footer/footer.php"
-
+require "footer/footer.php";
 ?>
+<script src = 'card.js'></script>

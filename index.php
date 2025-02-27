@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 // Include the header file for the page layout
 require "header/header.php";  
 
@@ -128,29 +129,52 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
             
             <?php if (!empty($products)) : ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <?php foreach ($products as $product) : ?>
-                        <div class="bg-white p-4 rounded-lg shadow-lg">
-                            <h3 class="text-lg font-bold"><?= htmlspecialchars($product['name']) ?></h3>
-                            <p class="text-gray-500">
-                                <strong>Pharmacie:</strong> 
-                                <?php if (!empty($product['pharmacy_id'])): ?>
-                                    <a href="pharmacy.php?id=<?= htmlspecialchars($product['pharmacy_id']) ?>" class="text-blue-600 hover:underline">
-                                        <?= htmlspecialchars($product['pharmacy_name']) ?>
-                                    </a>
-                                <?php else: ?>
-                                    <span>Non disponible</span>
-                                <?php endif; ?>
-                            </p>
-                            <p class="text-gray-500"><strong>Type:</strong> <?= htmlspecialchars($product['type']) ?></p>
-                            <p class="text-gray-700"><strong>Description:</strong> <?= nl2br(htmlspecialchars($product['description'])) ?></p>
-                            <p class="mt-2 <?= $product['need_prescription'] ? 'text-red-600' : 'text-green-600' ?>">
-                                <?= $product['need_prescription'] ? '❌ Nécessite une ordonnance' : '✅ En vente libre' ?>
-                            </p>
-                            <p class="text-green-600 font-semibold mt-2">
-                                💰 Prix: <?= htmlspecialchars($product['price']) ?> €
-                            </p>
-                        </div>
-                    <?php endforeach; ?>
+                <?php foreach ($products as $product) : ?>
+    <div class="bg-white p-4 rounded-lg shadow-lg">
+        <h3 class="text-lg font-bold"><?= htmlspecialchars($product['name']) ?></h3>
+        <p class="text-gray-500">
+            <strong>Pharmacie:</strong> 
+            <?php if (!empty($product['pharmacy_id'])): ?>
+                <a href="pharmacy.php?id=<?= htmlspecialchars($product['pharmacy_id']) ?>" class="text-blue-600 hover:underline">
+                    <?= htmlspecialchars($product['pharmacy_name']) ?>
+                </a>
+            <?php else: ?>
+                <span>Non disponible</span>
+            <?php endif; ?>
+        </p>
+        <p class="text-gray-500"><strong>Type:</strong> <?= htmlspecialchars($product['type']) ?></p>
+        <p class="text-gray-700"><strong>Description:</strong> <?= nl2br(htmlspecialchars($product['description'])) ?></p>
+        <p class="mt-2 <?= $product['need_prescription'] ? 'text-red-600' : 'text-green-600' ?>">
+            <?= $product['need_prescription'] ? '❌ Nécessite une ordonnance' : '✅ En vente libre' ?>
+        </p>
+        <p class="text-green-600 font-semibold mt-2">
+            💰 Prix: <?= htmlspecialchars($product['price']) ?> €
+        </p>
+
+        <?php if (!$product['need_prescription'] && isset($_SESSION['user_id'])): ?>
+            <!-- Formulaire pour la quantité -->
+            <div class="flex items-center mt-2">
+                <label for="quantity-<?= $product['id'] ?>" class="mr-2">Quantité :</label>
+                <input type="number" id="quantity-<?= $product['id'] ?>" 
+                       min="1" max="<?= $product['quantity'] ?>" value="1"
+                       class="border border-gray-300 rounded-md px-2 py-1 w-20" 
+                       onchange="updateTotalPrice(<?= $product['price'] ?>, <?= $product['id'] ?>)">
+                <span class="ml-2 text-gray-700">(Max: <?= $product['quantity'] ?>)</span>
+            </div>
+
+            <!-- Affichage du prix total -->
+            <p id="total-price-<?= $product['id'] ?>" class="text-gray-800 mt-2">
+                Prix total: <?= $product['price'] ?> €
+            </p>
+            <!-- Bouton avec AJAX -->
+            <button class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2" 
+            onclick="addToCart(<?= $_SESSION['user_id'] ?>, <?= $product['id'] ?>, <?= $product['pharmacy_id'] ?>, <?= $product['price'] ?>, '<?= addslashes($product['name']) ?>')">
+                Ajouter au panier
+            </button>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+
                 </div>
             <?php else : ?>
                 <p class="text-red-500 text-center">⚠️ Aucun médicament trouvé.</p>
@@ -160,3 +184,4 @@ $products = $query->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 <?php require "footer/footer.php"; ?>
+<script src="index.js"></script>
