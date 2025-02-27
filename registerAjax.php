@@ -37,6 +37,17 @@ if($password != $vpassword){
 
 $u = new User(Database::getConnection());
 $res = $u -> register($email,$password);
+<<<<<<< HEAD
 echo json_encode(['succes' => 'succes', 'message'=> $res]);
+=======
+if($res[0]  == 200 ){
+    $resp = $u -> login($email,$password);
+    if($resp[0] == 400){
+        echo json_encode(['succes' => 400, 'message'=> $resp]);
+        exit;
+    }
+}
+echo json_encode(['succes' => 200, 'message'=> $res]);
+>>>>>>> dev
 exit;
 }
