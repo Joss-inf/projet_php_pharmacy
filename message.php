@@ -3,8 +3,6 @@ session_start();
 
 require_once "header/header.php";
 require "messageAjax.php";
-
-var_dump($_SESSION);
 ?>
 <body>
     <div class="flex-1 flex items-center justify-center">
@@ -12,7 +10,7 @@ var_dump($_SESSION);
         <div class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[80vh] m-10">
                 
             <div class="p-4 bg-green-600 text-white text-center text-lg font-semibold">
-                Messagerie de la pharmacie
+                Messagerie
             </div>
                 
             <!-- message box of the pharmacie -->

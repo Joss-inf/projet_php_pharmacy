@@ -10,7 +10,7 @@ error_reporting(E_ALL);
 
 $messages = new Messages(Database::getConnection());
 
-$response = $messages->getMessages();
+$response = $messages->getMessage();
 
 echo json_encode([
     'status' => $response[0],  // 200 if Ok or 400 if not

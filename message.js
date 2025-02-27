@@ -1,15 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const messageInput = document.getElementById('message');
+    const messageBox = document.getElementById('messageBox');
+    const sendMessageForm = document.getElementById('sendMessage');
+
+    function loadMessages() {
+        fetch('getMessage.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    messageBox.innerHTML = '';
+
+                    data.message.forEach(message => {
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'message';
+                        messageElement.innerHTML = `<strong>User ${message.user_id}</strong>: ${message.message}`;
+                        messageBox.appendChild(messageElement);
+                    });
+
+                    messageBox.scrollTop = messageBox.scrollHeight;
+                } else {
+                    console.error('Erreur lors du chargement des messages:', data.messages);
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+    }
+
+    loadMessages();
 
     document.getElementById('sendMessage').addEventListener('submit', function(event) {
         event.preventDefault();
 
+        const messageInput = document.getElementById('message');
         const message = messageInput.value.trim();
-
-        if (!message) {
-            alert("Le champ message est vide !");
-            return;
-        }
 
         var formData = new FormData();
         formData.append("message", message);
@@ -18,16 +39,19 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())  // Parse la réponse en JSON
+        .then(response => response.json())
         .then(data => {
-            console.log("Réponse JSON du serveur:", data);
+            console.log(data)
             if (data.status === 200) {
-                alert("Message envoyé avec succès !");
-                messageInput.value = '';  // Vide le champ de message
+                loadMessages();
+                messageInput.value = '';
             } else {
-                alert("Erreur: " + data.message);
+                alert('Erreur: ' + data.message);
             }
         })
-        .catch(error => console.error("Erreur:", error));
+        .catch(error => console.error('Erreur:', error));
     });
+
+    // Optionnel: Recharger les messages toutes les X secondes
+    setInterval(loadMessages, 5000); // Recharge les messages toutes les 5 secondes
 });
