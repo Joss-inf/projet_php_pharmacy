@@ -1,8 +1,5 @@
 <?php
-require "database.php";
-
 class Messages {
-
     private $db;
 
     public function __construct($pdo) {

@@ -4,34 +4,22 @@ session_start();
 require "database.php";
 require "Message.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-    if (!isset($_SESSION['user_id']) || !isset($_SESSION['pharmacy_id'])) {
-        echo json_encode(["success" => false, "error" => "Utilisateur non connecté."]);
-        alerte("utilisateur non connecté");
-        exit;
-    }
+$messages = new Messages(Database::getConnection());
 
-    $user_id = $_SESSION['user_id'];
-    $pharmacy_id = $_SESSION['pharmacy_id'];
-    $message = trim($_POST['message'] ?? '');
-
-    if (empty($message)) {
-        echo json_encode(["success" => false, "error" => "Le message ne peut pas être vide."]);
-        exit;
-    }
-
-    $messages = new Messages($pdo);
-    $result = $messages->postMessage($user_id, $pharmacy_id, $message);
-
-    if ($result[0] === 200) {
-        echo json_encode(["success" => true, "message" => "Message envoyé avec succès."]);
-    } else {
-        echo json_encode(["success" => false, "error" => $result[1]]);
-    }
-    exit;
-} else {
-    echo json_encode(["success" => false, "error" => "Méthode non autorisée."]);
-    exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
+    $message = trim($_POST['message']);
+    $user_id = $_SESSION['user_id']; 
+    $pharmacy_id = 1;
+    
+    $response = $messages->postMessage($user_id, $pharmacy_id, $message);
+    
+    echo json_encode([
+        'status' => $response[0],  // 200 if Ok or 400 if not
+        'message' => $response[1] // the error message
+    ]);
 }
-
+?>
