@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const messageBox = document.getElementById('messageBox');
-    const sendMessageForm = document.getElementById('sendMessage');
+    const pharmacyName = document.getElementById('pharmacyName');
 
     function loadMessages() {
         fetch('getMessage.php')
@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.status === 200) {
                     messageBox.innerHTML = '';
+                    pharmacyName.innerHTML = '';
+
+                    let pharmacy = data.message[0].name;
+                    const pharmacyElement = document.createElement('h2');
+                    pharmacyElement.innerHTML = `${pharmacy}`;
+                    pharmacyName.appendChild(pharmacyElement);
 
                     data.message.forEach(message => {
                         const messageElement = document.createElement('div');

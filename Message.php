@@ -20,7 +20,6 @@ class Messages {
 
     public function getMessage($pharmacy) {
         try {
-            // Utilisation de requêtes préparées pour éviter les injections SQL
             $sql = "SELECT Message.message, Message.timestamp, Users.email, Pharmacy.name 
                     FROM Message 
                     INNER JOIN Pharmacy ON Message.pharmacy_id = Pharmacy.id 

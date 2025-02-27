@@ -9,7 +9,7 @@ require_once "header/header.php";
 
         <div class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[80vh] md:h-[90vh] m-4 md:m-10">
                 
-            <div class="p-4 bg-green-600 text-white text-center text-lg font-semibold">
+            <div id="pharmacyName" class="p-4 bg-green-600 text-white text-center text-lg font-semibold">
                 Messagerie
             </div>
                 
