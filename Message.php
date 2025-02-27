@@ -17,5 +17,16 @@ class Messages {
             return [400,"Error while sending the message."];
         }
     }
+
+    public function getMessage() {
+        try {
+            $stmt = $this->db->query("SELECT * FROM Message ORDER BY timestamp ASC");
+            $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return [200, $messages];
+        } catch (PDOException $e) {
+            return [400, "Error while fetching messages: " . $e->getMessage()];
+        }
+    }
+
 }
 ?>
