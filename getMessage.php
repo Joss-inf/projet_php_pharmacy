@@ -1,7 +1,7 @@
 <?php 
 session_start();
 
-require_once "Message.php";
+require_once "MessageClass.php";
 require_once "database.php";
 
 ini_set('display_errors', 1);

@@ -2,7 +2,7 @@
 session_start();
 
 require "database.php";
-require "Message.php";
+require "MessageClass.php";
 
 $messages = new Messages(Database::getConnection());
 
