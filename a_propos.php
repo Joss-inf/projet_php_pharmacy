@@ -1,7 +1,5 @@
 <?php
 // Informations sur la pharmacie
-
-
 $pharmacie = [
     "nom" => "Pharmacy",
     "adresse" => "123 Rue Exemple 75000 Paris, France",
@@ -23,7 +21,6 @@ function afficher_liste($elements) {
     }
     echo "</ul>";
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +55,9 @@ function afficher_liste($elements) {
 </head>
 <body>
 
-<div class="container">
+<a href="apropos.php#apropos">À propos</a> <!-- Lien vers la section "À propos" -->
+
+<div id="apropos" class="container">
     <h1>À propos de <?php echo htmlspecialchars($pharmacie['nom']); ?></h1>
     <p>Bienvenue sur le site de <strong><?php echo htmlspecialchars($pharmacie['nom']); ?></strong>, votre référence en matière de santé et bien-être.</p>
 
@@ -72,6 +71,27 @@ function afficher_liste($elements) {
     <p>📍 Adresse : <?php echo htmlspecialchars($pharmacie['adresse']); ?></p>
     <p>📧 Email : <a href="mailto:<?php echo htmlspecialchars($pharmacie['email']); ?>"><?php echo htmlspecialchars($pharmacie['email']); ?></a></p>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll("a[href^='#']");
+    
+    links.forEach(link => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const targetId = this.getAttribute("href").substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 50,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+});
+</script>
 
 </body>
 </html>
