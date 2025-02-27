@@ -52,6 +52,5 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Erreur:', error));
     });
 
-    // Optionnel: Recharger les messages toutes les X secondes
-    setInterval(loadMessages, 5000); // Recharge les messages toutes les 5 secondes
+    setInterval(loadMessages, 5000); // recharge the message every 5 sec
 });

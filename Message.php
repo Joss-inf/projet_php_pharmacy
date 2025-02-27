@@ -18,10 +18,22 @@ class Messages {
         }
     }
 
-    public function getMessage() {
+    public function getMessage($pharmacy) {
         try {
-            $stmt = $this->db->query("SELECT Message.message, Message.timestamp, Users.email, Pharmacy.name FROM Message INNER JOIN Pharmacy ON Message.pharmacy_id = Pharmacy.id INNER JOIN Users ON Message.user_id = Users.id WHERE Message.pharmacy_id = 1 ORDER BY Message.timestamp ASC");
+            // Utilisation de requêtes préparées pour éviter les injections SQL
+            $sql = "SELECT Message.message, Message.timestamp, Users.email, Pharmacy.name 
+                    FROM Message 
+                    INNER JOIN Pharmacy ON Message.pharmacy_id = Pharmacy.id 
+                    INNER JOIN Users ON Message.user_id = Users.id 
+                    WHERE Message.pharmacy_id = :pharmacy_id 
+                    ORDER BY Message.timestamp ASC";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':pharmacy_id', $pharmacy, PDO::PARAM_INT);
+            $stmt->execute();
+            
             $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
             return [200, $messages];
         } catch (PDOException $e) {
             return [400, "Error while fetching messages: " . $e->getMessage()];
