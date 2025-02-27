@@ -9,13 +9,16 @@ async function ajaxPost(postData) {
             body: JSON.stringify(postData) // Envoyer les données sous forme JSON
         });
         if (!response.ok) {throw new Error(`Erreur HTTP ! Statut : ${response.status}`);}
-        const data = await response.json(); 
+        const data = await response.json();
         const { _, message } = data;
         console.log(data)
         if (message[0] === 200) {
             bgColor = 'bg-green-100';
             borderColor = 'border-green-400';
             textColor = 'text-green-700';
+            setTimeout(() => {
+                window.location.href = 'index.php'; // Redirection après 2 secondes
+            }, 800);
         } else {
             bgColor = 'bg-red-100';
             borderColor = 'border-red-400';

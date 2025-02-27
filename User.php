@@ -10,7 +10,7 @@ class User {
     public function register($email, $password) {
         try {
             // Vérifier si l'email existe déjà
-            $stmt = $this->db->prepare("SELECT 1 FROM users WHERE email = :email");
+            $stmt = $this->db->prepare("SELECT 1 FROM Users WHERE email = :email");
             $stmt->execute(['email' => $email]);
             if ($stmt->rowCount() > 0) {
                 return [400, 'Email déjà pris.'];
@@ -20,10 +20,10 @@ class User {
             $hached_password = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
 
             // Insérer le nouvel utilisateur
-            $stmt = $this->db->prepare("INSERT INTO users (password, email) VALUES (:password, :email)");
+            $stmt = $this->db->prepare("INSERT INTO Users (password, email, role) VALUES (:password, :email, :role)");
 
             // Exécution de la requête avec les données associées
-            if ($stmt->execute(['password' => $hached_password, 'email' => $email])) {
+            if ($stmt->execute(['password' => $hached_password, 'email' => $email, 'role' => 0])) {
                 return [200, 'Inscription réussie.'];
             } else {
                 return [400, "Erreur lors de l'inscription."];
@@ -38,7 +38,7 @@ class User {
     public function login($email, $password) {
         try {
             // Préparer la requête pour récupérer l'utilisateur par email
-            $stmt = $this->db->prepare("SELECT password FROM users WHERE email = :email");
+            $stmt = $this->db->prepare("SELECT password FROM Users WHERE email = :email");
             $stmt->execute(['email' => $email]);
 
             if ($stmt->rowCount() != 1) {
@@ -50,7 +50,7 @@ class User {
             // Vérifier si le mot de passe est correct
             if (password_verify($password, $p['password'])) {
                 // Démarrer une session et stocker les informations de l'utilisateur
-                $stmt = $this->db->prepare("SELECT id, pharmacy_id, email, role FROM users WHERE email = :email");
+                $stmt = $this->db->prepare("SELECT id, pharmacy_id, email, role FROM Users WHERE email = :email");
                 $stmt->execute(['email' => $email]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

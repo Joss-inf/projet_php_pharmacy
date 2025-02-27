@@ -26,6 +26,7 @@
           <li><a href="about.php" class="hover:text-gray-300">À propos</a></li>
           <!-- Contact link -->
           <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
+
         </ul>
       </nav>
 
@@ -36,9 +37,22 @@
           <i class="fas fa-magnifying-glass"></i>
         </a>
         <!-- Profile icon -->
-        <a href="login.php" class="hover:text-gray-300">
-          <i class="fas fa-user"></i>
-        </a>
+        <?php
+session_start(); // Démarre la session
+
+// Vérifie si l'utilisateur est connecté (par exemple, on suppose que 'user_id' existe dans $_SESSION)
+$isConnected = isset($_SESSION['user_id']);
+?>
+
+<!-- Si l'utilisateur est connecté, on affiche le lien vers card.php, sinon on affiche le lien vers login.php -->
+<?php if ($isConnected): ?>
+    <a href="card.php" class="hover:text-gray-300">
+        <i class="fas fa-user"></i>
+    </a>
+<?php else: ?>
+    <a href="login.php" class="hover:text-gray-300">Connexion</a>
+<?php endif; ?>
+
         <!-- Shopping cart icon -->
         <a href="card.php" class="hover:text-gray-300">
           <i class="fas fa-shopping-cart"></i>
