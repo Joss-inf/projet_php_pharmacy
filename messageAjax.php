@@ -4,10 +4,6 @@ session_start();
 require "database.php";
 require "Message.php";
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 $messages = new Messages(Database::getConnection());
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
