@@ -36,20 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $fileName = $_FILES['siret']['name'];
             $fileType = $_FILES['siret']['type'];
 
-            // Validate file type and size
-            $validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf'];
-            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-
-            if (!in_array($fileExtension, $validExtensions)) {
-                echo json_encode(['status' => 400, 'message' => 'Seuls les fichiers JPG, PNG, GIF et PDF sont autorisés.']);
-                exit;
-            }
-
-            if ($_FILES['siret']['size'] > 2 * 1024 * 1024) { // 2 Mo
-                echo json_encode(['status' => 400, 'message' => 'Le fichier est trop volumineux. La taille maximale autorisée est 2 Mo.']);
-                exit;
-            }
-
             $uploadResponse = $pharmacy->uploadFile($userId, $fileTmpPath, $fileName, $fileType);
 
             if ($uploadResponse[0] !== 200) {
