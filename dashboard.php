@@ -1,5 +1,5 @@
 <?php
-require "header/header.php";  
+require "header/header.php"; 
 ?>
 
 <?php// Assurez-vous que la session est bien démarrée
@@ -33,6 +33,8 @@ if (!$isAdm) {
 <div id="usersList" class="max-h-[400px] max-w-[800px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 overflow-y-auto gap-4 p-4 border border-gray-300 rounded-lg shadow-md mx-auto mb-4">
     <!-- La liste des utilisateurs sera générée dynamiquement ici -->
 </div>>
+</div>
+<div id="pharmacyDetailsModal" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 hidden">
 </div>
     <!-- Formulaire Ajouter une pharmacie -->
     <div id="addPharmacyForm" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 hidden">
