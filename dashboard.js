@@ -5,11 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const addPharmacyBtn = document.getElementById('addPharmacyBtn');
 
     function loadPharmacies() {
-        fetch('dashboardAjax.php', {
+        fetch('dashboardAjax.php?action=getPharmacies', {
             method: 'GET',  // Spécification de la méthode HTTP
             headers: {
                 'Content-Type': 'application/json'  // Optionnel: définit le type de contenu attendu en réponse
             }
+
         })
         .then(response => {
             if (!response.ok) {
@@ -25,9 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.code === 200 && data.message.length > 0) {
                 data.message.forEach(pharmacy => {
                     html += `
-                        <div class="pharmacy-card" data-pharmacy-id="${pharmacy.id}">
+                        <div class="pharmacy-card shadow-[4px_4px_30px_0px_#718096] p-4" data-pharmacy-id="${pharmacy.id}">
                             <h3 class="font-bold">${pharmacy.name}</h3>
-                            <button class="viewPharmacyBtn bg-blue-500 text-white p-2 rounded" 
+                        <div class="flex w-full gap-2">
+                            <button class="viewPharmacyBtn flex-1 bg-blue-500 text-white p-2 rounded text-center" 
                                     data-pharmacy-id="${pharmacy.id}" 
                                     data-pharmacy-name="${pharmacy.name}"
                                     data-pharmacy-email="${pharmacy.email}"
@@ -36,11 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
                                     data-pharmacy-country="${pharmacy.country}"
                                     data-pharmacy-department="${pharmacy.department}"
                                     data-pharmacy-description="${pharmacy.description}"
-                                    data-pharmacy-isvalid="${pharmacy.is_valid}">
+                                    data-pharmacy-isvalid="${pharmacy.is_valid}"
+                                    data-pharmacy-users='${JSON.stringify(pharmacy.users)}'>
                                 Voir Détails
                             </button>
-                            <button class="deletePharmacyBtn bg-red-500 text-white p-2 rounded">Supprimer</button>
+                            <button class="deletePharmacyBtnflex-1 bg-red-500 text-white p-2 rounded text-center">Supprimer</button>
                         </div>
+                    </div>
                     `;
                 });
             } else {
@@ -125,10 +129,76 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+    function loadUsers() {
+        fetch('dashboardAjax.php?action=getUsers', {
+            method: 'GET',  // Spécification de la méthode HTTP
+            headers: {
+                'Content-Type': 'application/json'  // Optionnel: définit le type de contenu attendu en réponse
+            }
 
-    // Charger la liste des pharmacies dès que la page est prête
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();  // On transforme la réponse en JSON
+        })
+        .then(data => {
+            const UsersListDiv = document.getElementById('usersList');  // Assurez-vous que cet élément existe dans le HTML
+            let html = '';
+            console.log(data.message)
+            // Vérification si des pharmacies sont trouvées
+            if (data.code === 200 && data.message.length > 0) {
+                data.message.forEach(user => {
+                    // Création de l'HTML de base pour chaque utilisateur
+                    html += `
+    <div class="user-card shadow-[4px_4px_30px_0px_#718096] p-4" data-user-id="${user.id}">
+        <h3 class="font-bold">${user.email}</h3> <!-- Affiche l'email de l'utilisateur -->
+        <p class="text-sm text-gray-600">
+            Role: 
+            ${user.role === 1 ? 'Employé' :
+            user.role === 2 ? 'Directeur' :
+            user.role === 0 ? 'Client' : 
+            user.role === 3 ? 'Admin' : 'N/A'}
+        </p>
+        <p class="text-sm text-gray-600">User ID: ${user.id}</p>
+        
+        <!-- Affiche l'utilisateur avec le nom de la pharmacie -->
+        <p class="text-sm text-gray-600">
+            <strong>Nom de la Pharmacie : </strong> 
+            ${user.pharmacy_name ? `${user.pharmacy_name}` : 'Aucune pharmacie associée'}
+        </p>
+        
+        <!-- Affichage des informations directement dans la div -->
+        <p class="text-sm text-gray-600"><strong>Email:</strong> ${user.email}</p>
+        <p class="text-sm text-gray-600"><strong>Role:</strong> 
+            ${user.role === 1 ? 'Employé' :
+            user.role === 2 ? 'Directeur' :
+            user.role === 0 ? 'Client' : 
+            user.role === 3 ? 'Admin' : 'N/A'}
+        </p>
+        <p class="text-sm text-gray-600"><strong>User ID:</strong> ${user.id}</p>
+        <p class="text-sm text-gray-600"><strong>Pharmacy ID:</strong> ${user.pharmacy_id}</p>
+        <p class="text-sm text-gray-600"><strong>Nom de la Pharmacie:</strong> ${user.pharmacy_name || 'Aucune pharmacie associée'}</p>
+     
+    </div>
+    `;
+
+                });
+            } else {
+                html = '<p>Aucun utilisateur trouvé.</p>';
+            }
+        
+            UsersListDiv.innerHTML = html; // Affichage des pharmacies ou du message d'aucune pharmacie
+    
+        })
+        .catch(error => {
+            console.error('Erreur lors de la requête GET:', error);
+        });
+    }
+    // Charger la liste  dès que la page est prête
     loadPharmacies();
-
+    loadUsers();
 // Afficher le formulaire d'ajout de pharmacie
 addPharmacyBtn.addEventListener('click', () => {
     addPharmacyForm.classList.remove('hidden');
@@ -178,7 +248,4 @@ document.getElementById('addPharmacyFormSubmit').addEventListener('submit', (e) 
         }
     });
 });
-
-
-
 });
