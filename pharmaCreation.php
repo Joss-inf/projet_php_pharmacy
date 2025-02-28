@@ -1,5 +1,6 @@
 <?php
-require_once "header/header.php"
+require_once "header/header.php";
+session_start();
 ?>
 
 <body class="bg-gray-100">
@@ -41,7 +42,11 @@ require_once "header/header.php"
                     </div>
                     <div>
                         <label for="description" class="sr-only">Description</label>
-                        <textarea id="description" name="description" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Description"></textarea>
+                        <textarea id="description" name="description" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" placeholder="Description"></textarea>
+                    </div>
+                    <div>
+                        <label for="SIRET">Upload de SIRET</label>
+                        <input type="file" name="siret" id="siret" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm">
                     </div>
                 </div>
 
