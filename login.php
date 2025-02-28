@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="login.js" async></script>
-    <title>Page de Connexion</title>
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<?php require "header/header.php"?>
 
+<body class="bg-gray-100 flex items-center justify-center h-screen flex-row ">
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="w-full max-w-md">
         <form id="loginForm" method="POST" class="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 class="text-gray-100 mb-6 text-center text-2xl font-bold">Connexion</h2>
@@ -26,11 +19,11 @@
                 <input class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" name="password" placeholder="********">
             </div>
             <div class="flex items-center justify-between">
-                <button class="bg-gray-200  hover:bg-gray-400 text-black font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" id = 'login'>
+                <button class="bg-gray-200 hover:bg-gray-400 text-black font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" id="login">
                     Se connecter
                 </button>
                 <a class="inline-block align-baseline font-bold text-sm text-gray-200 hover:text-gray-400" href="register.php">
-                    Enregistré vous !
+                    Enregistrez-vous !
                 </a>
             </div>
         </form>
@@ -38,5 +31,10 @@
             &copy;2025 Votre Société. Tous droits réservés.
         </p>
     </div>
+</div>
+
+<?php require "footer/footer.php"?>
+
 </body>
 </html>
+<script src="login.js" ></script>

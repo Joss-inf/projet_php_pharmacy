@@ -20,10 +20,10 @@ class User {
             $hached_password = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
 
             // Insérer le nouvel utilisateur
-            $stmt = $this->db->prepare("INSERT INTO Users (password, email, role) VALUES (:password, :email, :role)");
+            $stmt = $this->db->prepare("INSERT INTO Users (password, email) VALUES (:password, :email)");
 
             // Exécution de la requête avec les données associées
-            if ($stmt->execute(['password' => $hached_password, 'email' => $email, 'role' => 0])) {
+            if ($stmt->execute(['password' => $hached_password, 'email' => $email])) {
                 return [200, 'Inscription réussie.'];
             } else {
                 return [400, "Erreur lors de l'inscription."];
@@ -53,8 +53,8 @@ class User {
                 $stmt = $this->db->prepare("SELECT id, pharmacy_id, email, role FROM Users WHERE email = :email");
                 $stmt->execute(['email' => $email]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                return [200, 'Connexion réussie.', $user];
+               
+                return [200, "Connexion réussie ! Redirection à la page d'accueil en cours . . .", $user];
             } else {
                 return [400, 'Mot de passe incorrect.'];
             }

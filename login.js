@@ -9,10 +9,10 @@ async function ajaxPost(postData) {
             body: JSON.stringify(postData) // Envoyer les données sous forme JSON
         });
         if (!response.ok) {throw new Error(`Erreur HTTP ! Statut : ${response.status}`);}
-        const data = await response.json();
-        const { _, message } = data;
+        const data = await response.json(); 
+    
         console.log(data)
-        if (message[0] === 200) {
+        if (data['succes'] === 200) {
             bgColor = 'bg-green-100';
             borderColor = 'border-green-400';
             textColor = 'text-green-700';
@@ -29,7 +29,7 @@ async function ajaxPost(postData) {
         const responseHTML = `
             <div class="${bgColor} border ${borderColor} ${textColor} px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">Réponse :</strong>
-                <span class="block sm:inline">${message[1]}</span>
+                <span class="block sm:inline">${data['message']}</span>
             </div>
         `;
 
