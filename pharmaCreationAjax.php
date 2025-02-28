@@ -15,8 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = trim($_POST['address']);
     $country = trim($_POST['country']);
     $department = trim($_POST['department']);
-    $description = trim($_POST['description']);
 
+    if (!isset($_POST['description'])) {
+        $description = "";
+    }
+    else {
+        $description = trim($_POST['description']);
+    }
+    
     $response = $pharmacy->postPharmacy($name, $email, $phone, $address, $country, $department, $description);
     echo json_encode([
         'status' => $response[0],  // 200 if Ok or 400 if not

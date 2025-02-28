@@ -1,8 +1,7 @@
 document.getElementById('createPharma').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    var formData = new FormData();
-    formData.append("message", message);
+    var formData = new FormData(this);
 
     fetch('pharmaCreationAjax.php', {
         method: 'POST',
