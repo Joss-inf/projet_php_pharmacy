@@ -1,5 +1,8 @@
 <?php
-session_start(); // Assurez-vous que la session est bien démarrée
+require "header/header.php";  
+?>
+
+<?php// Assurez-vous que la session est bien démarrée
 
 // Vérifier si l'utilisateur est admin (role = 3)
 $isAdm = isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] == 3;
@@ -10,27 +13,26 @@ if (!$isAdm) {
     exit(); // Toujours arrêter le script après une redirection
 }
 ?>
-<?php
-require "header/header.php";  
-?>
 
 <body class="bg-gray-100">
 
     <div class="container mx-auto p-8">
         <h1 class="text-3xl font-bold text-center mb-6">Gestion des Pharmacies</h1>
-
-        <!-- Ajouter une pharmacie -->
-        <button id="addPharmacyBtn" class="bg-blue-600 text-white p-2 rounded mb-4">Ajouter une pharmacie</button>
-
         <!-- Liste des pharmacies -->
-        <div id="pharmaciesList" class="flex flex-wrap justify-center gap-6 p-4">
-            <!-- La liste de pharmacies sera générée dynamiquement ici -->
-        </div>
-    </div>
-    <div id="pharmacyDetailsModal" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 hidden">
-    <div class="bg-white p-8 rounded shadow-lg w-96">
-        <!-- Les détails de la pharmacie seront insérés ici par JS -->
-    </div>
+        <a class="block text-center text-xl font-semibold mb-4">Liste de pharmacies</a>
+<div id="pharmaciesList" class="max-h-[400px] max-w-[800px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 overflow-y-auto gap-4 p-4 border border-gray-300 rounded-lg shadow-md mx-auto mb-4">
+    <!-- La liste de pharmacies sera générée dynamiquement ici -->
+</div>
+
+<!-- Bouton centré avec un cadre flottant et ombre -->
+<div class="flex justify-center mb-8">
+    <button id="addPharmacyBtn" class="bg-blue-600 text-white p-2 rounded-lg shadow-md hover:shadow-lg transition">Ajouter une pharmacie</button>
+</div>
+
+<a class="block text-center text-xl font-semibold mb-4">Liste des utilisateurs</a>
+<div id="usersList" class="max-h-[400px] max-w-[800px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 overflow-y-auto gap-4 p-4 border border-gray-300 rounded-lg shadow-md mx-auto mb-4">
+    <!-- La liste des utilisateurs sera générée dynamiquement ici -->
+</div>>
 </div>
     <!-- Formulaire Ajouter une pharmacie -->
     <div id="addPharmacyForm" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 hidden">

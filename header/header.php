@@ -27,9 +27,7 @@
         <nav class="hidden lg:flex space-x-6 items-center"> <!-- Utilisation lg:hidden pour cacher sur mobile -->
             <ul class="flex space-x-6">
                 <li><a href="index.php" class="hover:text-gray-300">Accueil</a></li>
-                <!-- About link -->
-                <li><a href="aboutus.php" class="hover:text-gray-300">À propos</a></li>
-                <!-- Contact link -->
+                <li><a href="about.php" class="hover:text-gray-300">À propos</a></li>
                 <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
                 <?php
                 session_start();
@@ -58,6 +56,7 @@
                     <i class="fas fa-magnifying-glass"></i>
                 </a>
                 <?php
+                
                 $isConnected = isset($_SESSION['user_id']);
                 ?>
                 <?php if ($isConnected): ?>
@@ -107,5 +106,3 @@
         mobileMenu.classList.toggle('hidden'); // Toggle la visibilité du menu
     });
 </script>
-
-

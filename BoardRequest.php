@@ -18,6 +18,17 @@ class Board {
             return [400, 'Erreur lors de la récupération des pharmacies : ' . $e->getMessage()];
         }
     }
+    public function getUsers(){
+        try {
+            $stmt = $this->db->query("SELECT Users.id, Users.email, Users.role, Users.pharmacy_id, Pharmacy.name AS pharmacy_name 
+                                                            FROM Users
+                                                            LEFT JOIN Pharmacy ON Users.pharmacy_id = Pharmacy.id;");
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return [200, $result];
+        } catch (Exception $e) {
+            return [400, 'Erreur lors de la récupération des utilisateurs: ' . $e->getMessage()];
+        }
+    }
 
     // 2. Ajouter une pharmacie
     public function addPharmacy($name, $email, $phone, $address, $country, $department, $is_valid, $description) {

@@ -6,11 +6,16 @@ $board = new Board(Database::getConnection());
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-
-$message = $board->getPharmacies();
-
-echo json_encode(['code' => $message[0], 'message' => $message[1]]);
-exit;
+    if (isset($_GET['action']) && $_GET['action'] === 'getPharmacies') {
+        $message = $board->getPharmacies();
+        echo json_encode(['code' => $message[0], 'message' => $message[1]]);
+        exit;
+    }
+    if (isset($_GET['action']) && $_GET['action'] === 'getUsers') {
+        $message = $board->getUsers();
+        echo json_encode(['code' => $message[0], 'message' => $message[1]]);
+        exit;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
