@@ -27,7 +27,7 @@
         <nav class="hidden lg:flex space-x-6 items-center"> <!-- Utilisation lg:hidden pour cacher sur mobile -->
             <ul class="flex space-x-6">
                 <li><a href="index.php" class="hover:text-gray-300">Accueil</a></li>
-                <li><a href="about.php" class="hover:text-gray-300">À propos</a></li>
+                <li><a href="aboutus.php" class="hover:text-gray-300">À propos</a></li>
                 <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
                 <?php
                 session_start();
@@ -77,7 +77,7 @@
     <div id="mobile-menu" class="lg:hidden hidden bg-gray-800 text-white py-4 absolute top-16 left-0 right-0">
         <ul class="flex flex-col items-center space-y-4">
             <li><a href="index.php" class="hover:text-gray-300">Accueil</a></li>
-            <li><a href="about.php" class="hover:text-gray-300">À propos</a></li>
+            <li><a href="aboutus.php" class="hover:text-gray-300">À propos</a></li>
             <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
             <?php if($isAdm): ?>
                 <li><a href="dashboard.php" class="hover:text-gray-300">Page Admin</a></li>
