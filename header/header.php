@@ -61,7 +61,7 @@
                 $isConnected = isset($_SESSION['user_id']);
                 ?>
                 <?php if ($isConnected): ?>
-                    <a href="profile.php" class="hover:text-gray-300">
+                    <a href="profil.php" class="hover:text-gray-300">
                         <i class="fas fa-user"></i>
                     </a>
                 <?php else: ?>
