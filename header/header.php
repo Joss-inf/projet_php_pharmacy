@@ -22,7 +22,7 @@
                 <!-- Home link -->
                 <li><a href="index.php" class="hover:text-gray-300">Accueil</a></li>
                 <!-- About link -->
-                <li><a href="about.php" class="hover:text-gray-300">À propos</a></li>
+                <li><a href="aboutus.php" class="hover:text-gray-300">À propos</a></li>
                 <!-- Contact link -->
                 <li><a href="contact.php" class="hover:text-gray-300">Contact</a></li>
             </ul>
