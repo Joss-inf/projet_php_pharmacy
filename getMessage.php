@@ -10,7 +10,7 @@ error_reporting(E_ALL);
 
 $messages = new Messages(Database::getConnection());
 
-if (!isset($_SESSION['pharmacy_id'])) {
+if ($_SESSION['pharmacy_id'] == "") {
     $pharmacy_id = 1;
 } else {
     $pharmacy_id = $_SESSION['pharmacy_id'];
