@@ -50,9 +50,6 @@
               }
               ?>
               <?php if($isStaff): ?>
-                <a href="message.php" class="hover:text-gray-300">
-                  <i class="fas fa-comment-dots"></i>
-                </a>
                 <?php endif; ?>
                 <a href="search.php" class="hover:text-gray-300">
                     <i class="fas fa-magnifying-glass"></i>
@@ -63,6 +60,9 @@
                 <?php if ($isConnected): ?>
                     <a href="profil.php" class="hover:text-gray-300">
                         <i class="fas fa-user"></i>
+                    </a>
+                    <a href="message.php" class="hover:text-gray-300">
+                      <i class="fas fa-comment-dots"></i>
                     </a>
                 <?php else: ?>
                     <a href="login.php" class="hover:text-gray-300">Connexion</a>
