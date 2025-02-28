@@ -34,8 +34,8 @@ if (!$isAdm) {
     <!-- La liste des utilisateurs sera générée dynamiquement ici -->
 </div>>
 </div>
+<div id="addPharmacyForm" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 hidden"></div>
     <!-- Formulaire Ajouter une pharmacie -->
-    <div id="addPharmacyForm" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 hidden">
     <div class="bg-white p-8 rounded shadow-lg w-96">
         <h2 class="text-2xl mb-4">Ajouter une pharmacie</h2>
         <form id="addPharmacyFormSubmit">
