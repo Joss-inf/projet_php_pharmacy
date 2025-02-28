@@ -39,11 +39,21 @@ $u = new User(Database::getConnection());
 $res = $u -> register($email,$password);
 if($res[0]  == 200 ){
     $resp = $u -> login($email,$password);
+
+    if($resp[0] == 200){
+        $user = $resp[2];
+        $_SESSION['user_id'] = $user['id'] ?? '';
+        $_SESSION['email'] = $user ['email']?? '';
+        $_SESSION['role'] = $user ['role']?? '';
+        $_SESSION['pharmacy_id'] = $user['pharmacy_id'] ?? '';
+        echo json_encode(['succes' => 200, 'message'=> $resp]);
+exit;
+    }
     if($resp[0] == 400){
         echo json_encode(['succes' => 400, 'message'=> $resp]);
         exit;
     }
 }
-echo json_encode(['succes' => 200, 'message'=> $res]);
-exit;
+echo json_encode(['succes' => 400, 'message'=> $res]);
+        exit;
 }
