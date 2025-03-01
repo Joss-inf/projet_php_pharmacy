@@ -3,7 +3,7 @@ class Database {
     private $host = 'localhost';
     private $db_name = 'pharmacy';
     private $username = 'root';
-    private $password = '1234';
+    private $password = '';
     private static $instance = null;
     private $conn;
 
@@ -28,4 +28,14 @@ class Database {
         }
         return self::$instance->conn;
     }
+    public static function closeConnection() {
+        // Close the static instance connection if necessary
+        self::$instance = null;
+    
+        // If 'conn' is an instance property, use 'self' for a static method:
+        if (isset(self::$instance)) {
+            self::$instance->conn = null;
+        }
+    }
+    
 }
