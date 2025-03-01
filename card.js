@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
           const productTotalElement = this.closest('tr').querySelector('td:nth-child(3)'); // La colonne du total
           let productTotal = productTotalElement.textContent.trim(); // Enlever les espaces blancs
           productTotal = productTotal.replace(' €', '').replace(',', '.'); // Enlever "€" et convertir la virgule en point
-          console.log(productTotal, "hihi");
           productTotal = parseFloat(productTotal); // Convertir en nombre
           console.log(productTotal);
           
