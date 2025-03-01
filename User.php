@@ -79,10 +79,11 @@ class User {
     }
 
     // Déconnexion de l'utilisateur
-    public function deconnexion() {
+    public function clearSession() {
         session_start();
         session_unset();
         session_destroy();
+        return;
     }
 }
 ?>
