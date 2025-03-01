@@ -1,19 +1,10 @@
 <?php
-session_start();
 require_once 'databaseprofile.php';
+require_once 'header/header.php';
 ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Profil</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>    
+<html>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-
+<div class = "flex justify-center items-center min-h-screen">
     <section class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
         <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">MON PROFIL</h1> 
 
@@ -72,5 +63,7 @@ require_once 'databaseprofile.php';
         </div>
     </section>
 
+        </div>
+        <?php require_once 'footer/footer.php'; ?>
 </body>
 </html>
