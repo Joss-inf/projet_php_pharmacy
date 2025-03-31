@@ -1,0 +1,185 @@
+CREATE DATABASE pharmacy;
+
+USE pharmacy;
+
+CREATE TABLE ProductType (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(55) NOT NULL
+);
+
+CREATE TABLE Product (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    id_type INT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity >= 0),
+    need_prescription BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (id_type) REFERENCES ProductType(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Pharmacy (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(30) NOT NULL UNIQUE,
+    address VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    department VARCHAR(255) NOT NULL,
+    is_valid BOOLEAN DEFAULT FALSE,
+    description TEXT
+);
+
+CREATE TABLE Users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(55) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role TINYINT DEFAULT 0 NOT NULL CHECK (role BETWEEN 0 AND 3),
+    pharmacy_id INT,
+    FOREIGN KEY (pharmacy_id) REFERENCES Pharmacy(id) ON DELETE SET NULL
+);
+
+CREATE TABLE PharmacyProduct (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    pharmacy_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (pharmacy_id) REFERENCES Pharmacy(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE
+);
+
+CREATE TABLE CommandLog (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    pharmacy_id INT NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (pharmacy_id) REFERENCES Pharmacy(id) ON DELETE CASCADE
+);
+
+CREATE TABLE CommandListProduct (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    id_histo INT NOT NULL,
+    product_quantity INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_histo) REFERENCES CommandLog(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Message (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    pharmacy_id INT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    message TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (pharmacy_id) REFERENCES Pharmacy(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Upload (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(50) NOT NULL,
+    data LONGBLOB NOT NULL,
+    upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_user) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+INSERT INTO ProductType (type) VALUES 
+('Vêtement Médical'),
+('Dispositif Médical'),
+('Produit de Puériculture'),
+('Alimentation Diététique'),
+('Accessoire de Santé'),
+('Produit de Diagnostic'),
+('Soin Dentaire'),
+('Soin Capillaire'),
+('Soin des Pieds'),
+('Produit de Bien-être');
+
+INSERT INTO Product (name, description, id_type, quantity, need_prescription) VALUES 
+('Ibuprofène 400mg', 'Anti-inflammatoire et antalgique.', 1, 150, TRUE),
+('Spiruline en comprimés', 'Complément alimentaire riche en protéines.', 2, 300, FALSE),
+('Stéthoscope Littmann', 'Stéthoscope professionnel pour médecins.', 3, 20, FALSE),
+('Lait Corporel Hydratant', 'Hydrate et apaise la peau sèche.', 4, 120, FALSE),
+('Brosse à Dents Électrique Oral-B', 'Nettoyage dentaire approfondi.', 7, 80, FALSE),
+('Thermomètre Frontal', 'Mesure la température sans contact.', 6, 70, FALSE),
+('Couches pour Bébé', 'Couches ultra-absorbantes.', 3, 200, FALSE),
+('Compresse Stérile', 'Pour le soin des plaies.', 3, 500, FALSE),
+('Huile Essentielle d’Eucalyptus', 'Décongestionnante et purifiante.', 10, 90, FALSE),
+('Orthèse de Genou', 'Soutien pour les articulations.', 5, 50, FALSE);
+
+INSERT INTO Pharmacy (name, email, phone, address, country, department, is_valid, description) VALUES 
+('Messagerie', 'centre@pharma.com', '0147852369', '15 Rue du Centre, Toulouse', 'France', 'Occitanie', TRUE, 'Spécialisée en produits diététiques.'),
+('Pharmacie de la Gare', 'gare@pharma.com', '0236547891', '20 Avenue de la Gare, Nantes', 'France', 'Pays de la Loire', TRUE, 'Ouverte tard le soir.'),
+('Pharmacie Verte', 'verte@pharma.com', '0458963214', '30 Rue Verte, Strasbourg', 'France', 'Grand Est', FALSE, 'En attente de certification.'),
+('Pharmacie du Port', 'port@pharma.com', '0678451236', '5 Quai du Port, Nice', 'France', 'Provence-Alpes-Côte d’Azur', TRUE, 'Spécialisée en produits marins.'),
+('Pharmacie du Marché', 'marche@pharma.com', '0789456123', '10 Place du Marché, Rennes', 'France', 'Bretagne', TRUE, 'Produits locaux et bio.'),
+('Pharmacie du Parc', 'parc@pharma.com', '0896541237', '25 Avenue du Parc, Montpellier', 'France', 'Occitanie', TRUE, 'Conseils en aromathérapie.'),
+('Pharmacie du Nord', 'nord@pharma.com', '0345678912', '12 Rue du Nord, Lille', 'France', 'Hauts-de-France', FALSE, 'Nouvelle pharmacie en développement.'),
+('Pharmacie du Sud', 'sud@pharma.com', '0567891234', '18 Rue du Sud, Perpignan', 'France', 'Occitanie', TRUE, 'Spécialisée en produits naturels.'),
+('Pharmacie de l’Est', 'est@pharma.com', '0678912345', '22 Rue de l’Est, Nancy', 'France', 'Grand Est', TRUE, 'Produits pour toute la famille.'),
+('Pharmacie de l’Ouest', 'ouest@pharma.com', '0789123456', '28 Rue de l’Ouest, Brest', 'France', 'Bretagne', TRUE, 'Conseils en phytothérapie.');
+
+INSERT INTO Users (email, password, role, pharmacy_id) VALUES 
+('client2@gmail.com', 'clientpass2', 0, NULL),  -- Client
+('pharmacien3@pharmaciecentrale.com', 'pharma789', 2, 1),  -- Pharmacien (Pharmacie Centrale)
+('livreur2@pharma.com', 'livreurpass2', 1, NULL),  -- Livreur
+('client3@gmail.com', 'clientpass3', 0, NULL),  -- Client
+('pharmacien4@pharmasoleil.com', 'pharma101', 2, 3),  -- Pharmacien (Pharmacie du Soleil)
+('client4@gmail.com', 'clientpass4', 0, NULL),  -- Client
+('livreur3@pharma.com', 'livreurpass3', 1, NULL),  -- Livreur
+('pharmacien5@pharmacieverte.com', 'pharma202', 2, 2),  -- Pharmacien (Pharmacie Saint-Michel)
+('client5@gmail.com', 'clientpass5', 0, NULL),  -- Client
+('pharmacien6@pharmacieducentre.com', 'pharma303', 2, 4);  -- Pharmacien (Pharmacie SantéPlus)
+
+INSERT INTO PharmacyProduct (pharmacy_id, product_id, quantity, price) VALUES 
+(1, 3, 100, 1.50),  -- Masque Chirurgical à Pharmacie Centrale
+(2, 4, 150, 3.99),  -- Gel Hydroalcoolique à Saint-Michel
+(3, 5, 80, 12.99),  -- Crème Hydratante à du Soleil
+(4, 1, 60, 4.99),   -- Doliprane à SantéPlus
+(5, 2, 200, 5.50),  -- Vitamine C à MedicAvenir
+(1, 2, 50, 5.50),   -- Vitamine C à Pharmacie Centrale
+(2, 3, 100, 0.99),  -- Masque Chirurgical à Saint-Michel
+(3, 1, 70, 4.99),   -- Doliprane à du Soleil
+(4, 4, 120, 3.49),  -- Gel Hydroalcoolique à SantéPlus
+(5, 5, 90, 12.99);  -- Crème Hydratante à MedicAvenir
+
+INSERT INTO CommandLog (user_id, pharmacy_id, total_price) VALUES 
+(2, 1, 15.98),  -- Client 1 a commandé à Pharmacie Centrale
+(3, 2, 9.99),   -- Pharmacien 1 a commandé à Saint-Michel
+(4, 3, 25.50),  -- Livreur 1 a commandé à du Soleil
+(5, 4, 18.75),  -- Pharmacien 2 a commandé à SantéPlus
+(2, 5, 12.99),  -- Client 1 a commandé à MedicAvenir
+(3, 1, 20.00),  -- Pharmacien 1 a commandé à Pharmacie Centrale
+(4, 2, 15.50),  -- Livreur 1 a commandé à Saint-Michel
+(5, 3, 30.00),  -- Pharmacien 2 a commandé à du Soleil
+(2, 4, 10.99),  -- Client 1 a commandé à SantéPlus
+(3, 5, 22.50);  -- Pharmacien 1 a commandé à MedicAvenir
+
+INSERT INTO CommandListProduct (product_id, id_histo, product_quantity) VALUES 
+(1, 1, 2),  -- Client 1 a pris 2 Doliprane
+(2, 2, 1),  -- Pharmacien 1 a pris 1 Vitamine C
+(3, 3, 10), -- Livreur 1 a pris 10 Masques
+(4, 4, 5),  -- Pharmacien 2 a pris 5 Gels Hydroalcooliques
+(5, 5, 3),  -- Client 1 a pris 3 Crèmes Hydratantes
+(1, 6, 4),  -- Pharmacien 1 a pris 4 Doliprane
+(2, 7, 2),  -- Livreur 1 a pris 2 Vitamines C
+(3, 8, 15), -- Pharmacien 2 a pris 15 Masques
+(4, 9, 3),  -- Client 1 a pris 3 Gels Hydroalcooliques
+(5, 10, 2); -- Pharmacien 1 a pris 2 Crèmes Hydratantes
+
+INSERT INTO Message (user_id, pharmacy_id, message) VALUES 
+(2, 1, 'Bonjour, avez-vous du Doliprane en stock ?'),
+(3, 2, 'Je voudrais commander un grand lot de masques.'),
+(4, 3, 'Quelle est votre politique de livraison ?'),
+(5, 4, 'Pouvez-vous me conseiller un bon produit pour la peau ?'),
+(2, 1, 'Merci pour votre réponse rapide !'),
+(3, 2, 'Avez-vous des vitamines C en stock ?'),
+(4, 3, 'Je cherche des gels hydroalcooliques.'),
+(5, 4, 'Quel est le délai de livraison pour les crèmes hydratantes ?'),
+(2, 5, 'Avez-vous des masques chirurgicaux ?'),
+(3, 1, 'Pouvez-vous me donner des informations sur les compléments alimentaires ?');
+
