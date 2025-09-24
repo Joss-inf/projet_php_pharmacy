@@ -1,6 +1,8 @@
 # 📦 Site de Pharmacie en Ligne
 
 Bienvenue sur **Pharmacy**, une plateforme dédiée à la gestion des stocks de pharmacie, à la consultation des médicaments disponibles, et à la localisation des pharmacies à proximiter.
+<img width="977" height="766" alt="image" src="https://github.com/user-attachments/assets/cd394d80-d9f9-43f3-9a61-9373f25d991d" />
+
 
 ## 🚀 Fonctionnalités
 
